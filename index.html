@@ -10,47 +10,343 @@
 <link rel="stylesheet" href="styles.css">
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
-<body class="minimal-layout">
+<body>
 
-<!-- ============== MINIMAL HEADER ============== -->
-<header class="site-header minimal" id="siteHeader">
+<!-- ============== TOP NAV ============== -->
+<header class="site-header" id="siteHeader">
   <div class="nav-inner">
+    <button class="menu-btn" aria-label="menu" id="menuBtn">
+      <span></span><span></span><span></span>
+    </button>
+    <nav class="primary-nav">
+      <a href="#today">HEADLINES</a>
+      <a href="#economy">ECONOMY</a>
+      <a href="#culture">CULTURE</a>
+      <a href="#tech">TECH</a>
+      <a href="#world">WORLD</a>
+    </nav>
     <a href="#top" class="brand">OPINION</a>
     <div class="utility-nav">
+      <a href="#compare">COMPARE</a>
+      <a href="#subscribe">SUBSCRIBE</a>
       <div class="profile-wrap" id="profileWrap"></div>
+    </div>
+  </div>
+  <div class="ticker">
+    <div class="ticker-track">
+      <span data-today-dot>2026.05.23</span><span> / TOKYO</span>
+      <span>—</span>
+      <span>NIKKEI 225  39,210.42  ▲0.4%</span>
+      <span>—</span>
+      <span>USD/JPY  148.21</span>
+      <span>—</span>
+      <span>BRENT  82.10</span>
+      <span>—</span>
+      <span>VOL. XII  /  ISSUE 142</span>
+      <span>—</span>
+      <span>A DAILY READ OF MANY VOICES</span>
+      <span>—</span>
+      <span data-today-dot>2026.05.23</span><span> / TOKYO</span>
+      <span>—</span>
+      <span>NIKKEI 225  39,210.42  ▲0.4%</span>
+      <span>—</span>
+      <span>USD/JPY  148.21</span>
+      <span>—</span>
     </div>
   </div>
 </header>
 
-<!-- ============== HERO — only allowed copy ============== -->
-<section class="hero hero-min" id="top">
+<!-- ============== HERO ============== -->
+<section class="hero" id="top">
   <div class="hero-grid">
-    <h1 class="hero-title hero-title-min">
+    <div class="hero-meta reveal">
+      <span class="kicker">VOL. XII  /  ISSUE 142</span>
+      <span class="date" data-today-long>SATURDAY, MAY 23, 2026</span>
+    </div>
+    <h1 class="hero-title">
       <span class="line reveal">Ten</span>
       <span class="line reveal">headlines,</span>
       <span class="line reveal">one envelope,</span>
       <span class="line reveal italic">every morning.</span>
     </h1>
-    <p class="hero-lede hero-lede-min reveal">OPINION — a monochrome daily of many voices.</p>
+    <p class="hero-lede reveal">
+      OPINION — a monochrome daily of many voices.
+    </p>
+    <div class="hero-issue reveal">
+      <span>EDITED IN TOKYO</span><span>·</span><span>SINCE 2026</span>
+    </div>
+  </div>
+  <div class="scroll-cue reveal">
+    <span>SCROLL</span>
+    <div class="line-down"></div>
   </div>
 </section>
 
-<!-- ============== NO.1 - NO.10 (one news × 5 outlets each) ============== -->
-<section class="today-news minimal-cards" id="today">
+<!-- ============== TODAY'S HEADLINES — 10 CARDS, 1 STORY × 5 OUTLETS EACH ============== -->
+<section class="today-news" id="today">
+  <header class="section-head">
+    <span class="section-label reveal"><span id="todayLabel">TODAY</span>  /  <span data-today-dot>—</span></span>
+    <h2 class="reveal">Today's <span class="italic">Headlines.</span></h2>
+    <p class="reveal">Ten stories, each compared across five outlets. Click any headline to read the original — the page learns what you tend to open.</p>
+  </header>
+
   <div class="hl-grid reveal" id="headlinesGrid">
     <div class="hl-loading">Loading…</div>
   </div>
 
   <div class="meta-bar reveal">
-    <span id="todayClicks" hidden>learning: idle</span>
-    <span id="todayProfile" hidden>profile: —</span>
+    <span>SOURCE: GOOGLE NEWS (JA / JP)</span>
+    <span id="todayClicks">learning: idle</span>
+    <span id="todayProfile">profile: —</span>
     <span id="todayUpdatedAt">UPDATED: —</span>
-    <span id="todayLabel" hidden>TODAY</span>
     <button id="editProfile" type="button">Edit profile</button>
     <button id="resetPrefs" type="button">Reset clicks</button>
     <button id="resetProfile" type="button">Reset profile</button>
   </div>
 </section>
+
+<!-- ============== EDITOR'S NOTE ============== -->
+<section class="editors-note">
+  <div class="en-inner">
+    <span class="section-label reveal">EDITOR'S NOTE</span>
+    <p class="en-body reveal">
+      Open ten newspapers and the same event wears ten different faces. This page gathers the front-page voices of major papers and wire services — <em>Asahi, Yomiuri, Mainichi, Nikkei, Sankei, Kyodo, Jiji, NHK, Reuters, AP</em> — side by side, so you can draw your own line.
+    </p>
+    <span class="signature reveal">— The Editors</span>
+  </div>
+</section>
+
+<!-- ============== FULL BLEED QUOTE ============== -->
+<section class="quote-section">
+  <blockquote class="reveal">
+    <span class="q-mark">“</span>
+    <p>The newspaper is the second hand of history — and ten clocks rarely agree.</p>
+    <span class="q-mark close">”</span>
+    <footer>— Editorial, 2026</footer>
+  </blockquote>
+</section>
+
+<!-- ============== ECONOMY ============== -->
+<section class="grid-section" id="economy">
+  <header class="section-head">
+    <div class="section-plate reveal">
+      <span class="po-num">No. 02</span>
+      <span class="po-sec">SECTION / ECONOMY</span>
+    </div>
+    <h2 class="reveal">Yen, prices, <span class="italic">three perspectives.</span></h2>
+    <p class="reveal">Live business headlines from major outlets — the same numbers, different narratives.</p>
+  </header>
+
+  <div class="three-col">
+    <article class="col reveal"><span class="num">02</span><span class="src">…</span><h3>Loading…</h3><p>—</p></article>
+    <article class="col reveal"><span class="num">03</span><span class="src">…</span><h3>Loading…</h3><p>—</p></article>
+    <article class="col reveal"><span class="num">04</span><span class="src">…</span><h3>Loading…</h3><p>—</p></article>
+  </div>
+
+  <div class="meta-bar reveal">
+    <span>SOURCE: GOOGLE NEWS / BUSINESS</span>
+    <span>READING TIME: 4 MIN</span>
+  </div>
+</section>
+
+<!-- ============== PARALLAX BAND ============== -->
+<section class="parallax-band">
+  <div class="pb-text reveal">
+    <span>FILTER  /  BUBBLE  /  BREAK</span>
+    <h2>Opposite views, <span class="italic">on one screen.</span></h2>
+    <p>The other side of every headline you read today, always one click away.</p>
+  </div>
+</section>
+
+<!-- ============== CULTURE / WIDE FEATURE ============== -->
+<section class="wide-feature" id="culture">
+  <div class="wf-inner">
+    <span class="section-label reveal">SECTION  /  CULTURE</span>
+    <div class="wf-grid">
+      <div class="wf-text">
+        <h2 class="reveal">Culture, <span class="italic">loading…</span></h2>
+        <p class="reveal">Selected culture & entertainment headlines, fetched live.</p>
+        <ul class="wf-list reveal">
+          <li><span>…</span>Loading…</li>
+        </ul>
+      </div>
+      <div class="wf-image reveal">
+        <div class="placeholder ph-2">
+          <span class="ph-overlay">
+            <span class="po-num">No. 05</span>
+            <span class="po-sec">SECTION / CULTURE</span>
+          </span>
+        </div>
+        <span class="caption">— ARCHITECTURE & THE PUBLIC</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== TECH ============== -->
+<section class="grid-section dark" id="tech">
+  <header class="section-head">
+    <div class="section-plate reveal">
+      <span class="po-num">No. 06</span>
+      <span class="po-sec">SECTION / TECH</span>
+    </div>
+    <h2 class="reveal">Tech, at the center <span class="italic">of geopolitics.</span></h2>
+  </header>
+  <div class="three-col">
+    <article class="col reveal"><span class="num">06</span><span class="src">…</span><h3>Loading…</h3><p>—</p></article>
+    <article class="col reveal"><span class="num">07</span><span class="src">…</span><h3>Loading…</h3><p>—</p></article>
+    <article class="col reveal"><span class="num">08</span><span class="src">…</span><h3>Loading…</h3><p>—</p></article>
+  </div>
+</section>
+
+<!-- ============== WORLD ============== -->
+<section class="world-section" id="world">
+  <header class="section-head center">
+    <div class="section-plate reveal">
+      <span class="po-num">No. 09</span>
+      <span class="po-sec">SECTION / WORLD</span>
+    </div>
+    <h2 class="reveal">Same event, <span class="italic">different skies.</span></h2>
+  </header>
+
+  <div class="world-list">
+    <article class="world-item reveal">
+      <span class="w-num">09</span>
+      <div class="w-body">
+        <h3>Loading world headlines…</h3>
+        <div class="w-sources">
+          <div><span class="src">…</span><p>—</p></div>
+        </div>
+      </div>
+    </article>
+  </div>
+</section>
+
+<!-- ============== COMPARE TOOL ============== -->
+<section class="compare" id="compare">
+  <div class="compare-inner">
+    <span class="section-label reveal">FEATURE</span>
+    <h2 class="reveal">Compare Tool  <span class="italic">— Read Side by Side.</span></h2>
+    <p class="reveal">Switch tabs to browse today's headlines across politics, business, tech, and world — each panel pulls live items from multiple outlets.</p>
+
+    <div class="compare-tabs reveal">
+      <button class="tab active" data-tab="t1">POLITICS</button>
+      <button class="tab" data-tab="t2">ECONOMY</button>
+      <button class="tab" data-tab="t3">TECH</button>
+      <button class="tab" data-tab="t4">WORLD</button>
+    </div>
+
+    <div class="compare-panels">
+      <div class="panel active" data-panel="t1">
+        <div class="panel-col"><span class="src">…</span><h4>Loading…</h4><p>—</p></div>
+      </div>
+      <div class="panel" data-panel="t2">
+        <div class="panel-col"><span class="src">…</span><h4>Loading…</h4><p>—</p></div>
+      </div>
+      <div class="panel" data-panel="t3">
+        <div class="panel-col"><span class="src">…</span><h4>Loading…</h4><p>—</p></div>
+      </div>
+      <div class="panel" data-panel="t4">
+        <div class="panel-col"><span class="src">…</span><h4>Loading…</h4><p>—</p></div>
+      </div>
+    </div>
+
+    <p class="compare-foot reveal">When sources diverge, we always print every byline. One article is never the whole world.</p>
+  </div>
+</section>
+
+<!-- ============== ARCHIVE / TIMELINE ============== -->
+<section class="archive">
+  <header class="section-head center">
+    <div class="section-plate reveal">
+      <span class="po-num">No. 12</span>
+      <span class="po-sec">SECTION / THIS WEEK</span>
+    </div>
+    <h2 class="reveal">This Week's <span class="italic">Headlines</span></h2>
+  </header>
+  <ul class="timeline">
+    <li class="reveal"><span class="t-date">—</span><span class="t-cat">POLITICS</span><span class="t-text">Loading…</span><span class="t-src">…</span></li>
+    <li class="reveal"><span class="t-date">—</span><span class="t-cat">ECONOMY</span><span class="t-text">Loading…</span><span class="t-src">…</span></li>
+    <li class="reveal"><span class="t-date">—</span><span class="t-cat">TECH</span><span class="t-text">Loading…</span><span class="t-src">…</span></li>
+    <li class="reveal"><span class="t-date">—</span><span class="t-cat">CULTURE</span><span class="t-text">Loading…</span><span class="t-src">…</span></li>
+    <li class="reveal"><span class="t-date">—</span><span class="t-cat">WORLD</span><span class="t-text">Loading…</span><span class="t-src">…</span></li>
+    <li class="reveal"><span class="t-date">—</span><span class="t-cat">TODAY</span><span class="t-text">Loading…</span><span class="t-src">…</span></li>
+  </ul>
+</section>
+
+<!-- ============== SUBSCRIBE ============== -->
+<section class="subscribe" id="subscribe">
+  <div class="sub-inner">
+    <span class="section-label reveal">SUBSCRIBE</span>
+    <h2 class="reveal">Ten headlines, <span class="italic">one envelope,</span> every morning.</h2>
+    <p class="reveal">A daily digest of the front-page voices from Japan's major papers and global wires — delivered at 7 a.m.</p>
+    <form class="sub-form reveal" onsubmit="event.preventDefault(); this.querySelector('button').textContent='THANK YOU';">
+      <input type="email" placeholder="your@email.com" required>
+      <button type="submit">SUBSCRIBE</button>
+    </form>
+    <span class="sub-foot reveal">— Free / Unsubscribe anytime</span>
+  </div>
+</section>
+
+<!-- ============== FOOTER ============== -->
+<footer class="site-footer">
+  <div class="ft-top">
+    <a href="#top" class="ft-brand">OPINION</a>
+    <p class="ft-tag">A MONOCHROME DAILY OF MANY VOICES.</p>
+  </div>
+  <div class="ft-cols">
+    <div>
+      <h5>SECTIONS</h5>
+      <a href="#politics">Politics</a>
+      <a href="#economy">Economy</a>
+      <a href="#culture">Culture</a>
+      <a href="#tech">Tech</a>
+      <a href="#world">World</a>
+    </div>
+    <div>
+      <h5>SOURCES</h5>
+      <a href="https://www.asahi.com/" target="_blank" rel="noopener noreferrer">朝日新聞</a>
+      <a href="https://www.yomiuri.co.jp/" target="_blank" rel="noopener noreferrer">読売新聞</a>
+      <a href="https://mainichi.jp/" target="_blank" rel="noopener noreferrer">毎日新聞</a>
+      <a href="https://www.nikkei.com/" target="_blank" rel="noopener noreferrer">日本経済新聞</a>
+      <a href="https://www.sankei.com/" target="_blank" rel="noopener noreferrer">産経新聞</a>
+      <a href="https://www.kyodonews.jp/" target="_blank" rel="noopener noreferrer">共同通信</a>
+      <a href="https://www.jiji.com/" target="_blank" rel="noopener noreferrer">時事通信</a>
+      <a href="https://www3.nhk.or.jp/news/" target="_blank" rel="noopener noreferrer">NHK</a>
+      <a href="https://jp.reuters.com/" target="_blank" rel="noopener noreferrer">Reuters</a>
+      <a href="https://apnews.com/" target="_blank" rel="noopener noreferrer">AP / AFP</a>
+    </div>
+    <div>
+      <h5>ABOUT</h5>
+      <a>Editorial Policy</a>
+      <a>Sources &amp; Citations</a>
+      <a>Privacy</a>
+      <a>Contact</a>
+    </div>
+    <div>
+      <h5>FOLLOW</h5>
+      <a>Newsletter</a><a>RSS</a><a>X / Twitter</a><a>Instagram</a>
+    </div>
+  </div>
+  <div class="ft-bottom">
+    <span>© 2026 OPINION MEDIA PORTAL</span>
+    <span>VOL. XII  /  ISSUE 142</span>
+    <span>EDITED IN TOKYO</span>
+  </div>
+</footer>
+
+<!-- ============== MOBILE NAV OVERLAY ============== -->
+<div class="mobile-nav" id="mobileNav">
+  <nav>
+    <a href="#today">HEADLINES</a>
+    <a href="#economy">ECONOMY</a>
+    <a href="#culture">CULTURE</a>
+    <a href="#tech">TECH</a>
+    <a href="#world">WORLD</a>
+    <a href="#compare">COMPARE</a>
+    <a href="#subscribe">SUBSCRIBE</a>
+  </nav>
+</div>
 
 <!-- ============== ONBOARDING MODAL ============== -->
 <div class="onb-modal" id="onbModal" hidden>

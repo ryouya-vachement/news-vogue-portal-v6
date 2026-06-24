@@ -816,6 +816,12 @@
         ent:      rankFeed(rotateByDay(ent),      'ent'),
       };
       renderHeadlines10(feeds);
+      renderThreeCol('#economy .three-col', feeds.business, 2, 'business');
+      renderThreeCol('#tech .three-col', feeds.tech, 6, 'tech');
+      renderCulture(feeds.ent);
+      renderWorld(feeds.world);
+      renderCompare({ nation: feeds.nation, business: feeds.business, tech: feeds.tech, world: feeds.world });
+      renderArchive(feeds);
     } catch (err) {
       const grid = document.getElementById('headlinesGrid');
       if (grid) grid.innerHTML =
