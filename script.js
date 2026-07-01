@@ -146,6 +146,74 @@
     savePrefs(p);
   };
 
+  /* ---------- Onboarding-driven demographics → implicit keywords ---------- */
+  const GENERATION_KEYWORDS = {
+    '10s': ['SNS', 'TikTok', 'ゲーム', '受験', '大学入試', 'アニメ', 'YouTube', '部活', 'K-POP'],
+    '20s': ['就活', '転職', 'キャリア', 'スタートアップ', 'AI', 'スキル', 'アプリ', '起業', '学生ローン'],
+    '30s': ['子育て', '住宅', 'キャリア', '投資', 'ワークライフ', 'マンション', '教育費', '育児'],
+    '40s': ['マネジメント', '経営', '教育', '健康', '子ども', '住宅ローン', '介護', '受験'],
+    '50+': ['退職', '年金', '介護', '健康', 'シニア', '相続', '老後', '医療'],
+  };
+  const PROFESSION_KEYWORDS = {
+    'Student':      ['大学', '受験', '奨学金', '教育', '就活', 'インターン', '学費', 'キャンパス'],
+    'Professional': ['キャリア', '働き方', 'AI', 'スキル', 'DX', '副業', 'リモートワーク', '転職'],
+    'Manager':      ['経営', 'マネジメント', '組織', 'リーダー', '経営戦略', '人材', 'DX', '業績'],
+    'Other':        [],
+  };
+
+  const implicitProfileKeywords = (profile) => {
+    if (!profile) return [];
+    return [
+      ...(GENERATION_KEYWORDS[profile.generation] || []),
+      ...(PROFESSION_KEYWORDS[profile.profession] || []),
+    ];
+  };
+
+  /* ---------- Section allocation from interests + click history ---------- */
+  const SECTION_MAP = { business: 'ECONOMY', ent: 'CULTURE', tech: 'TECH', world: 'WORLD' };
+  const SECTION_CATS = Object.keys(SECTION_MAP);
+
+  const computeSectionSlots = (totalSlots = 10) => {
+    const prefs = loadPrefs();
+    const profile = loadProfile() || {};
+    const interests = profile.interests || [];
+    const w = { business: 1, ent: 1, tech: 1, world: 1 };
+    // Each matching interest strongly boosts its section
+    Object.entries(SECTION_MAP).forEach(([cat, label]) => {
+      if (interests.includes(label)) w[cat] += 2;
+    });
+    // POLITICS has no dedicated section — spread it across world/business/tech
+    if (interests.includes('POLITICS')) {
+      w.world += 1;
+      w.business += 0.5;
+      w.tech += 0.5;
+    }
+    // Click history: proportional bonus per category
+    const catCounts = prefs.cats || {};
+    const catTotal = Object.values(catCounts).reduce((a, b) => a + b, 0) || 1;
+    Object.keys(SECTION_MAP).forEach(cat => {
+      w[cat] += ((catCounts[cat] || 0) / catTotal) * 3;
+    });
+    // Normalise to sum = totalSlots, guarantee at least 1 per section
+    const wSum = Object.values(w).reduce((a, b) => a + b, 0);
+    const slots = {};
+    SECTION_CATS.forEach(cat => {
+      slots[cat] = Math.max(1, Math.round((w[cat] / wSum) * totalSlots));
+    });
+    // Fix rounding drift so sum matches totalSlots
+    const order = SECTION_CATS.slice().sort((a, b) => w[b] - w[a]);
+    let diff = totalSlots - Object.values(slots).reduce((a, b) => a + b, 0);
+    let i = 0;
+    while (diff !== 0 && i < 50) {
+      const k = order[i % order.length];
+      if (diff > 0) slots[k] += 1;
+      else if (slots[k] > 1) slots[k] -= 1;
+      diff = totalSlots - Object.values(slots).reduce((a, b) => a + b, 0);
+      i++;
+    }
+    return slots;
+  };
+
   /* ---------- TODAY slot distribution (cat-weighted) ---------- */
   const getCatWeights = () => {
     const p = loadPrefs();
@@ -185,6 +253,14 @@
         tokens.some(t => t === k || t.includes(k) || k.includes(t))
       ).length;
       s += hit * 0.8;
+    }
+    // implicit demographics keywords (generation / profession)
+    const impKw = implicitProfileKeywords(profile);
+    if (impKw.length) {
+      const hitDemo = impKw.filter(k =>
+        tokens.some(t => t === k || t.includes(k) || k.includes(t))
+      ).length;
+      s += hitDemo * 0.35;
     }
     // implicit click history
     if (prefs?.cats?.[catOfFeed]) {
@@ -881,15 +957,26 @@
         tech:     rankFeed(rotateByDay(tech),     'tech'),
         ent:      rankFeed(rotateByDay(ent),      'ent'),
       };
-      // Distribute the day's 10 stories across 4 category sections
-      //   ECONOMY  : No.01-03 (business)
-      //   CULTURE  : No.04-05 (entertainment)
-      //   TECH     : No.06-08 (technology)
-      //   WORLD    : No.09-10 (world)
-      renderCardGrid('economyGrid', feeds.business, feeds, 'business', 3, 1);
-      renderCardGrid('cultureGrid', feeds.ent,      feeds, 'ent',      2, 4);
-      renderCardGrid('techGrid',    feeds.tech,     feeds, 'tech',     3, 6);
-      renderCardGrid('worldGrid',   feeds.world,    feeds, 'world',    2, 9);
+      // Card allocation is derived from the onboarding profile
+      // (Interests / click history). ECONOMY starts at No.01, then
+      // CULTURE / TECH / WORLD follow with continuous numbering.
+      const slots = computeSectionSlots(10);
+      const setPlate = (sel, n) => {
+        const el = document.querySelector(`${sel} .section-plate .po-num`);
+        if (el) el.textContent = `No. ${String(n).padStart(2, '0')}`;
+      };
+      let cursor = 1;
+      setPlate('#economy', cursor);
+      renderCardGrid('economyGrid', feeds.business, feeds, 'business', slots.business, cursor);
+      cursor += slots.business;
+      setPlate('#culture', cursor);
+      renderCardGrid('cultureGrid', feeds.ent, feeds, 'ent', slots.ent, cursor);
+      cursor += slots.ent;
+      setPlate('#tech', cursor);
+      renderCardGrid('techGrid', feeds.tech, feeds, 'tech', slots.tech, cursor);
+      cursor += slots.tech;
+      setPlate('#world', cursor);
+      renderCardGrid('worldGrid', feeds.world, feeds, 'world', slots.world, cursor);
       renderCompare({ nation: feeds.nation, business: feeds.business, tech: feeds.tech, world: feeds.world });
       renderArchive(feeds);
     } catch (err) {
